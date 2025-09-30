@@ -10,9 +10,12 @@ interface Props {
   addToHistory: (view: View, input: any, output: GenerationResult) => void;
 }
 
+const themes = ['Product Launch', 'Holiday Sale', 'Newsletter', 'Special Offer', 'Welcome Email'];
+
 const EmailCampaignView: React.FC<Props> = ({ addToHistory }) => {
   const [product, setProduct] = useState('');
   const [audience, setAudience] = useState('');
+  const [theme, setTheme] = useState(themes[0]);
   const [campaign, setCampaign] = useState<EmailCampaign | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,10 +32,10 @@ const EmailCampaignView: React.FC<Props> = ({ addToHistory }) => {
     setCampaign(null);
 
     try {
-      const result = await generateEmailCampaign(product, audience);
+      const result = await generateEmailCampaign(product, audience, theme);
       if (result.subject !== "Error") {
         setCampaign(result);
-        addToHistory(View.EmailCampaign, { product, audience }, result);
+        addToHistory(View.EmailCampaign, { product, audience, theme }, result);
       } else {
         setError(result.body);
       }
@@ -57,6 +60,12 @@ const EmailCampaignView: React.FC<Props> = ({ addToHistory }) => {
               className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="e.g., A new AI-powered project management tool..."
             />
+          </div>
+          <div>
+            <label htmlFor="theme" className="block text-sm font-medium">Campaign Theme</label>
+            <select id="theme" value={theme} onChange={e => setTheme(e.target.value)} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md">
+              {themes.map(t => <option key={t}>{t}</option>)}
+            </select>
           </div>
           <div>
             <label htmlFor="audience" className="block text-sm font-medium">Target Audience</label>

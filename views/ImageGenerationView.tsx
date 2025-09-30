@@ -32,7 +32,7 @@ const ImageGenerationView: React.FC<Props> = ({ addToHistory }) => {
 
     try {
       const result = await generateImage(prompt);
-      if (!result.startsWith('An error occurred')) {
+      if (!result.toLowerCase().startsWith('an error occurred')) {
         setImage(result);
         addToHistory(View.ImageGeneration, { prompt }, result);
       } else {
