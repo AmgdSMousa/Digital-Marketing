@@ -8,7 +8,6 @@ export enum View {
   Clients = 'Clients',
   Analytics = 'Analytics Dashboard',
   Settings = 'Settings',
-  Login = 'Login',
   UserManagement = 'User Management',
 }
 
@@ -50,7 +49,7 @@ export interface SmtpSettings {
 
 export interface User {
     id: string;
-    name: string;
-    email: string;
+    username: string;
+    password?: string; // Password is optional when editing
     role: 'Admin' | 'User';
 }

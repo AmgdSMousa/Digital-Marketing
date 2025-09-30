@@ -1,11 +1,13 @@
 import React from 'react';
+import { User } from '../types';
 
 interface HeaderProps {
   currentView: string;
   toggleSidebar: () => void;
+  user: User | null;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentView, toggleSidebar }) => {
+export const Header: React.FC<HeaderProps> = ({ currentView, toggleSidebar, user }) => {
   return (
     <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,7 +24,13 @@ export const Header: React.FC<HeaderProps> = ({ currentView, toggleSidebar }) =>
             </button>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white ml-4 md:ml-0">{currentView}</h1>
           </div>
-          {/* Add other header items here, like user menu or theme switcher */}
+          {user && (
+            <div className="hidden md:flex items-center">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                Welcome, <span className="font-bold">{user.username}</span> ({user.role})
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </header>
